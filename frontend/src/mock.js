@@ -10,7 +10,7 @@ export const featuredProjects = [
     afterDescription: "Polished emotional narrative with music and pacing",
     duration: "3:24",
     tags: ["YouTube", "Storytelling", "Color Grading"],
-    videoUrl: "assets/videos/demo-reel.mp4"
+    videoUrl: "https://res.cloudinary.com/dntyusnxe/video/upload/v1/demo-reel_vtysba.mp4"
   },
   {
     id: 2,

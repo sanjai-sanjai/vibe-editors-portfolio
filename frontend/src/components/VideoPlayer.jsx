@@ -130,7 +130,6 @@ const VideoPlayer = ({ videoUrl, poster, ServiceBadge }) => {
         >
             <video
                 ref={videoRef}
-                src={videoUrl}
                 poster={poster}
                 className="absolute inset-0 w-full h-full object-cover"
                 // Only autoplay if in view
@@ -139,9 +138,11 @@ const VideoPlayer = ({ videoUrl, poster, ServiceBadge }) => {
                 muted={isMuted} // Controlled by React state
                 defaultMuted={true}
                 playsInline
-                preload="metadata"
+                preload="none"
                 onClick={togglePlay} // Click video to toggle play
-            />
+            >
+                <source src={videoUrl} type="video/mp4" />
+            </video>
 
             {/* Fallback Play Button Overlay (when paused manually) */}
             {!isPlaying && (

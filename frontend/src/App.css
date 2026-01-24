@@ -1,0 +1,36 @@
+/* EDITVERSE Portfolio Styles */
+
+* {
+  scroll-behavior: smooth;
+}
+
+/* Remove default body margin */
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #FFC300;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #FFB703;
+}
+
+/* Selection color */
+::selection {
+  background: #FFC300;
+  color: #000000;
+}

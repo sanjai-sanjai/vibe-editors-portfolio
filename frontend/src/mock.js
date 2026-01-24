@@ -21,7 +21,7 @@ export const featuredProjects = [
     afterDescription: "Dynamic cuts with motion graphics and engaging pacing",
     duration: "1:45",
     tags: ["Reels", "Product", "Fast Cuts"],
-    videoUrl: "assets/videos/EVOCAA YT - PORTFOLIO 2.mp4"
+    videoUrl: "https://res.cloudinary.com/dntyusnxe/video/upload/v1/EVOCAA_YT_-_PORTFOLIO_2_jissfo.mp4"
   },
   {
     id: 3,
@@ -32,7 +32,7 @@ export const featuredProjects = [
     afterDescription: "Perfectly timed cuts synced to trending audio",
     duration: "0:32",
     tags: ["Instagram", "Viral", "Audio Sync"],
-    videoUrl: "assets/videos/SOLO CREATOR.mp4"
+    videoUrl: "https://res.cloudinary.com/dntyusnxe/video/upload/v1/SOLO_CREATOR_c0olhw.mp4"
   },
   {
     id: 4,
@@ -43,7 +43,7 @@ export const featuredProjects = [
     afterDescription: "Structured story with seamless scene transitions",
     duration: "8:15",
     tags: ["Documentary", "Narrative", "Long-form"],
-    videoUrl: "assets/videos/PORTFOLIO - evocaa yt ready.mp4"
+    videoUrl: "https://res.cloudinary.com/dntyusnxe/video/upload/v1/PORTFOLIO_-_evocaa_yt_ready_vh7clh.mp4"
   },
   {
     id: 5,
@@ -60,14 +60,14 @@ export const clientProjects = [
     title: "Tech Startup Explainer",
     description: "Clear storytelling with engaging pacing for SaaS product",
     service: "SaaS Product Storytelling",
-    videoUrl: "assets/videos/Varma style.mp4"
+    videoUrl: "https://res.cloudinary.com/dntyusnxe/video/upload/v1/Varma_style_korwgm.mp4"
   },
   {
     id: 2,
     title: "Fitness Channel Series",
     description: "High-energy cuts with music sync for workout content",
     service: "Fitness & High Energy",
-    videoUrl: "assets/videos/VN20260113_091808_1.mp4"
+    videoUrl: "https://res.cloudinary.com/dntyusnxe/video/upload/v1/VN20260113_091808_1_tbzjhw.mp4"
   },
   {
     id: 3,

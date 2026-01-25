@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Play } from 'lucide-react';
 import VideoPlayer from './VideoPlayer';
 
-const ProjectCard = ({ project, index }) => {
+const ProjectCard = ({ project, index, sectionId }) => {
     const [isHovering, setIsHovering] = useState(false);
 
     return (
@@ -20,6 +20,7 @@ const ProjectCard = ({ project, index }) => {
                 {project.videoUrl ? (
                     <VideoPlayer
                         videoUrl={project.videoUrl}
+                        sectionId={sectionId}
                         ServiceBadge={
                             <span className="inline-block text-xs text-white bg-black/60 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/10">
                                 {project.service}

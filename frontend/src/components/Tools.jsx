@@ -21,7 +21,7 @@ const Tools = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 max-w-6xl mx-auto">
           {tools.map((tool, index) => (
             <motion.div
               key={tool.id}
@@ -29,7 +29,7 @@ const Tools = () => {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.05 }}
-              className="group relative bg-zinc-900/40 backdrop-blur-sm rounded-2xl p-6 border border-white/5 hover:border-primary/20 hover:bg-zinc-900/60 hover:shadow-xl hover:shadow-primary/5 transition-all duration-500 hover:-translate-y-1 text-center"
+              className="group relative bg-zinc-900/40 backdrop-blur-sm rounded-2xl p-6 border border-white/5 hover:border-primary/20 hover:bg-zinc-900/60 hover:shadow-xl hover:shadow-primary/5 transition-all duration-500 hover:-translate-y-1 text-center flex flex-col items-center justify-center"
             >
               <div className="w-16 h-16 mx-auto bg-primary/5 rounded-xl flex items-center justify-center mb-4 group-hover:bg-primary/10 group-hover:scale-105 transition-all duration-500 p-3 ring-1 ring-white/5 group-hover:ring-primary/20">
                 <img

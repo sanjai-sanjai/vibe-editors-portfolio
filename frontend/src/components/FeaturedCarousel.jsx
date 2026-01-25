@@ -164,6 +164,7 @@ const FeaturedCarousel = () => {
                       {project.videoUrl ? (
                         <VideoPlayer
                           videoUrl={project.videoUrl}
+                          sectionId="featured"
                           ServiceBadge={
                             <div className="flex items-center gap-2 mb-2">
                               <span className="text-xs text-white/60 bg-black/40 backdrop-blur-sm px-3 py-1 rounded-full">

@@ -2,14 +2,17 @@ import React, { useRef, useState, useEffect, useId } from 'react';
 import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
 import { useInView } from 'react-intersection-observer';
 import { useAudio } from '../context/AudioContext';
+import { motion, AnimatePresence } from 'framer-motion';
 
-const VideoPlayer = ({ videoUrl, poster, ServiceBadge }) => {
+const VideoPlayer = ({ videoUrl, poster, ServiceBadge, sectionId = 'global' }) => {
     const videoRef = useRef(null);
     const [isPlaying, setIsPlaying] = useState(false);
     const [isMuted, setIsMuted] = useState(true);
     const [progress, setProgress] = useState(0);
     const [duration, setDuration] = useState(0);
     const [isHovering, setIsHovering] = useState(false);
+    const [showMuteHint, setShowMuteHint] = useState(false);
+    const [showTooltip, setShowTooltip] = useState(false);
 
     // Lazy loading
     const { ref: inViewRef, inView } = useInView({
@@ -19,6 +22,40 @@ const VideoPlayer = ({ videoUrl, poster, ServiceBadge }) => {
 
     const playerId = useId();
     const { currentAudioId, requestAudioFocus } = useAudio();
+
+    // Check for tooltip requirement on mount (scoped by sectionId)
+    useEffect(() => {
+        const tooltipKey = `hasSeenSoundTooltip_${sectionId}`;
+        const hasSeenTooltip = localStorage.getItem(tooltipKey);
+
+        if (!hasSeenTooltip) {
+            // Show after slight delay
+            const timer = setTimeout(() => {
+                setShowTooltip(true);
+            }, 1000);
+            return () => clearTimeout(timer);
+        }
+    }, [sectionId]);
+
+    // Auto-hide tooltip after 5 seconds (increased duration)
+    useEffect(() => {
+        if (showTooltip) {
+            const timer = setTimeout(() => {
+                setShowTooltip(false);
+                const tooltipKey = `hasSeenSoundTooltip_${sectionId}`;
+                localStorage.setItem(tooltipKey, 'true');
+            }, 5000);
+            return () => clearTimeout(timer);
+        }
+    }, [showTooltip, sectionId]);
+
+    // Check for mute interaction on mount (for the subtle pulse)
+    useEffect(() => {
+        const hasInteracted = localStorage.getItem('hasInteractedWithMute');
+        if (!hasInteracted) {
+            setShowMuteHint(true);
+        }
+    }, []);
 
     // Listen for global audio changes
     useEffect(() => {
@@ -94,6 +131,18 @@ const VideoPlayer = ({ videoUrl, poster, ServiceBadge }) => {
 
     const toggleMute = (e) => {
         e.stopPropagation();
+        if (showMuteHint) {
+            setShowMuteHint(false);
+        }
+        if (showTooltip) {
+            setShowTooltip(false);
+            const tooltipKey = `hasSeenSoundTooltip_${sectionId}`;
+            localStorage.setItem(tooltipKey, 'true');
+        }
+
+        // Persist interaction so animation never runs again
+        localStorage.setItem('hasInteractedWithMute', 'true');
+
         if (videoRef.current) {
             const newMuted = !isMuted;
             videoRef.current.muted = newMuted;
@@ -205,20 +254,41 @@ const VideoPlayer = ({ videoUrl, poster, ServiceBadge }) => {
                 </div>
             </div>
 
-            {/* Top Right Mute Button - Always visible or show on hover? User said "place the mute button in the top right". Let's show it always or on hover. 
-                Usually for muted autoplay videos, it's nice to see the mute status. Let's make it persistent but stylish. 
-            */}
-            <button
-                onClick={toggleMute}
-                className="absolute top-4 right-4 z-30 w-10 h-10 bg-black/40 backdrop-blur-md border border-white/10 rounded-full flex items-center justify-center hover:bg-primary group/mute shadow-lg hover:scale-105 active:scale-95 transition-all duration-300"
-                title={isMuted ? "Unmute" : "Mute"}
-            >
-                {isMuted ? (
-                    <VolumeX className="w-5 h-5 text-white" />
-                ) : (
-                    <Volume2 className="w-5 h-5 text-white group-hover/mute:text-primary-foreground" />
-                )}
-            </button>
+            {/* Top Right Mute Button - Visual Cue Only */}
+            <div className="absolute top-4 right-4 z-30 flex items-center">
+                <AnimatePresence>
+                    {showTooltip && (
+                        <motion.div
+                            initial={{ opacity: 0, x: 10, scale: 0.9 }}
+                            animate={{ opacity: 1, x: 0, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.5 } }}
+                            transition={{ duration: 0.4, ease: "easeOut" }}
+                            className="mr-3 relative group/tooltip"
+                        >
+                            <div className="bg-black/80 backdrop-blur-md border border-primary/50 text-white text-[10px] font-medium px-3 py-1.5 rounded-full shadow-lg flex items-center whitespace-nowrap">
+                                <span className="text-primary mr-1.5">●</span>
+                                Tap to enable sound
+                            </div>
+                            {/* Arrow pointing right */}
+                            <div className="absolute right-[-4px] top-1/2 -translate-y-1/2 w-0 h-0 border-t-[4px] border-t-transparent border-b-[4px] border-b-transparent border-l-[6px] border-l-primary/50" />
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+
+                <button
+                    onClick={toggleMute}
+                    className={`w-10 h-10 bg-black/40 backdrop-blur-md border border-white/10 rounded-full flex items-center justify-center hover:bg-primary group/mute shadow-lg hover:scale-105 active:scale-95 transition-all duration-300 ${showMuteHint ? 'animate-[pulse_1.5s_ease-in-out_3]' : ''}`}
+                    title={isMuted ? "Unmute" : "Mute"}
+                    onAnimationEnd={() => setShowMuteHint(false)}
+                >
+                    {isMuted ? (
+                        <VolumeX className="w-5 h-5 text-white" />
+                    ) : (
+                        <Volume2 className="w-5 h-5 text-white group-hover/mute:text-primary-foreground" />
+                    )}
+                </button>
+            </div>
+
             {/* Service Badge (passed purely for display, hidden on interactions) */}
             {!isHovering && ServiceBadge && (
                 <div className="absolute bottom-4 left-4 right-4 z-10 pointer-events-none transition-opacity duration-300">

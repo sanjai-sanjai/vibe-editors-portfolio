@@ -151,13 +151,7 @@ export const tools = [
     category: "Motion Graphics",
     logoUrl: "https://upload.wikimedia.org/wikipedia/commons/c/cb/Adobe_After_Effects_CC_icon.svg"
   },
-  {
-    id: 3,
-    name: "CapCut",
-    category: "Quick Edits",
-    logoUrl: "assets/icons/capcut-logo.png",
-    scale: 0.65
-  },
+
   {
     id: 4,
     name: "DaVinci Resolve",

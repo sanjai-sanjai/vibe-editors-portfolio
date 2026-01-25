@@ -21,16 +21,16 @@ const BeforeAfter = () => {
     triggerOnce: false
   });
 
-  // Video URLs
-  const beforeUrl = "https://res.cloudinary.com/dntyusnxe/video/upload/portfolio_beforeee_kwd58k.mp4";
-  const afterUrl = "https://res.cloudinary.com/dntyusnxe/video/upload/transformation_v62ft3.mp4";
+  // Video URLs with Cloudinary optimizations
+  const beforeUrl = "https://res.cloudinary.com/dntyusnxe/video/upload/f_auto,q_auto/portfolio_beforeee_kwd58k.mp4";
+  const afterUrl = "https://res.cloudinary.com/dntyusnxe/video/upload/f_auto,q_auto/transformation_v62ft3.mp4";
 
   const handleMove = useCallback((clientX) => {
     if (containerRef.current) {
       const rect = containerRef.current.getBoundingClientRect();
       const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
       const percentage = (x / rect.width) * 100;
-      setSliderPosition(percentage);
+      setSliderPosition(Math.max(0, Math.min(100, percentage)));
     }
   }, []);
 
@@ -47,6 +47,27 @@ const BeforeAfter = () => {
   const [showHint, setShowHint] = useState(false);
   const hasTriggeredHint = useRef(false);
 
+  // Sound Tooltip Logic
+  const [showSoundTooltip, setShowSoundTooltip] = useState(false);
+
+  useEffect(() => {
+    const hasSeenTooltip = localStorage.getItem('hasSeenSoundTooltip_transformation');
+    if (!hasSeenTooltip) {
+      const timer = setTimeout(() => setShowSoundTooltip(true), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (showSoundTooltip) {
+      const timer = setTimeout(() => {
+        setShowSoundTooltip(false);
+        localStorage.setItem('hasSeenSoundTooltip_transformation', 'true');
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [showSoundTooltip]);
+
   // Auto-hide hint timer
   useEffect(() => {
     if (showHint) {
@@ -62,10 +83,15 @@ const BeforeAfter = () => {
       onInteractionStart();
       window.addEventListener('mouseup', onMouseUp);
       window.addEventListener('mousemove', onMouseMove);
+      // Prevent scrolling while dragging on mobile
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
     }
     return () => {
       window.removeEventListener('mouseup', onMouseUp);
       window.removeEventListener('mousemove', onMouseMove);
+      document.body.style.overflow = '';
     };
   }, [isDragging, onInteractionStart, onMouseUp, onMouseMove]);
 
@@ -88,11 +114,15 @@ const BeforeAfter = () => {
 
   const toggleMute = useCallback((e) => {
     e.stopPropagation();
+    if (showSoundTooltip) {
+      setShowSoundTooltip(false);
+      localStorage.setItem('hasSeenSoundTooltip_transformation', 'true');
+    }
     const newMuted = !isMuted;
     setIsMuted(newMuted);
     if (beforeVideoRef.current) beforeVideoRef.current.muted = newMuted;
     if (afterVideoRef.current) afterVideoRef.current.muted = newMuted;
-  }, [isMuted]);
+  }, [isMuted, showSoundTooltip]);
 
   const handleSeek = (e) => {
     const seekTime = (Number(e.target.value) / 100) * duration;
@@ -147,19 +177,19 @@ const BeforeAfter = () => {
 
 
   return (
-    <section className="py-24 bg-background">
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
+    <section className="py-12 md:py-24 bg-background overflow-hidden relative">
+      <div className="max-w-7xl mx-auto px-4 md:px-12">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-10 md:mb-16"
         >
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-4 md:mb-6">
             See the <span className="text-primary">Transformation</span>
           </h2>
-          <p className="text-lg text-white/60 max-w-2xl mx-auto">
+          <p className="text-base md:text-lg text-white/60 max-w-2xl mx-auto px-4">
             Drag the slider to compare raw footage vs. the final edit
           </p>
         </motion.div>
@@ -177,12 +207,12 @@ const BeforeAfter = () => {
             }
           }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="w-full max-w-sm mx-auto group/video"
+          className="w-full max-w-sm mx-auto group/video touch-none select-none relative z-10"
         >
-          <div className="bg-card rounded-2xl p-4 shadow-2xl relative">
+          <div className="bg-card rounded-2xl p-2 md:p-4 shadow-2xl relative overflow-hidden">
             <div
               ref={containerRef}
-              className="relative rounded-xl overflow-hidden aspect-[9/16] cursor-ew-resize group select-none"
+              className="relative rounded-xl overflow-hidden aspect-[9/16] cursor-ew-resize group select-none touch-pan-y"
               onTouchMove={onTouchMove}
             >
               {/* Before Video (Background) */}
@@ -262,18 +292,40 @@ const BeforeAfter = () => {
                 After
               </div>
 
-              {/* Top Right Mute Button */}
-              <button
-                onClick={toggleMute}
-                className="absolute top-16 right-4 z-30 w-10 h-10 bg-black/40 backdrop-blur-md border border-white/10 rounded-full flex items-center justify-center hover:bg-primary group/mute shadow-lg hover:scale-105 active:scale-95 transition-all duration-300"
-                title={isMuted ? "Unmute" : "Mute"}
-              >
-                {isMuted ? (
-                  <VolumeX className="w-5 h-5 text-white" />
-                ) : (
-                  <Volume2 className="w-5 h-5 text-white group-hover/mute:text-primary-foreground" />
-                )}
-              </button>
+
+              {/* Top Right Mute Button & Sound Tooltip */}
+              <div className="absolute top-16 right-4 z-30 flex items-center">
+                <AnimatePresence>
+                  {showSoundTooltip && (
+                    <motion.div
+                      initial={{ opacity: 0, x: 10, scale: 0.9 }}
+                      animate={{ opacity: 1, x: 0, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.5 } }}
+                      transition={{ duration: 0.4, ease: "easeOut" }}
+                      className="mr-3 relative group/tooltip"
+                    >
+                      <div className="bg-black/80 backdrop-blur-md border border-primary/50 text-white text-[10px] font-medium px-3 py-1.5 rounded-full shadow-lg flex items-center whitespace-nowrap">
+                        <span className="text-primary mr-1.5">●</span>
+                        Tap to enable sound
+                      </div>
+                      {/* Arrow pointing right */}
+                      <div className="absolute right-[-4px] top-1/2 -translate-y-1/2 w-0 h-0 border-t-[4px] border-t-transparent border-b-[4px] border-b-transparent border-l-[6px] border-l-primary/50" />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                <button
+                  onClick={toggleMute}
+                  className="w-10 h-10 bg-black/40 backdrop-blur-md border border-white/10 rounded-full flex items-center justify-center hover:bg-primary group/mute shadow-lg hover:scale-105 active:scale-95 transition-all duration-300"
+                  title={isMuted ? "Unmute" : "Mute"}
+                >
+                  {isMuted ? (
+                    <VolumeX className="w-5 h-5 text-white" />
+                  ) : (
+                    <Volume2 className="w-5 h-5 text-white group-hover/mute:text-primary-foreground" />
+                  )}
+                </button>
+              </div>
 
               {/* Custom Controls Overlay */}
               <div

@@ -86,7 +86,9 @@ const Contact = () => {
 
             {/* Email */}
             <a
-              href={`mailto:${contactInfo.email}`}
+              href={`https://mail.google.com/mail/?view=cm&fs=1&to=${contactInfo.email}`}
+              target="_blank"
+              rel="noopener noreferrer"
               className="group relative overflow-hidden bg-card rounded-3xl p-6 border border-white/10 hover:border-primary/50 transition-all duration-500 hover:shadow-[0_0_40px_rgba(255,195,0,0.15)] flex items-center"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 blur-3xl rounded-full group-hover:bg-primary/20 transition-all duration-500" />

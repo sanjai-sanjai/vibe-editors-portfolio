@@ -3,24 +3,24 @@
 export const featuredProjects = [
   {
     id: 1,
-    title: "Brand Storytelling Campaign",
-    description: "Transformed raw interview footage into an emotional brand story",
+    title: "High Retention Based Edits",
+    description: "Retention based storytelling",
     category: "Storytelling",
     beforeDescription: "Raw interview footage with multiple camera angles",
     afterDescription: "Polished emotional narrative with music and pacing",
     duration: "3:24",
-    tags: ["YouTube", "Storytelling", "Color Grading"],
+    tags: ["Instagram", "Storytelling", "Color Grading"],
     videoUrl: "https://res.cloudinary.com/dntyusnxe/video/upload/v1/demo-reel_vtysba.mp4"
   },
   {
     id: 2,
-    title: "Product Launch Video",
-    description: "Fast-paced product showcase optimized for retention",
+    title: "Youtube ad style",
+    description: "Storong positioning style",
     category: "YouTube Editing",
     beforeDescription: "Static product shots and unstructured footage",
     afterDescription: "Dynamic cuts with motion graphics and engaging pacing",
     duration: "1:45",
-    tags: ["Reels", "Product", "Fast Cuts"],
+    tags: ["Youtube", "Product", "Fast Cuts"],
     videoUrl: "https://res.cloudinary.com/dntyusnxe/video/upload/v1/EVOCAA_YT_-_PORTFOLIO_2_jissfo.mp4"
   },
   {
@@ -57,45 +57,47 @@ export const featuredProjects = [
 export const clientProjects = [
   {
     id: 1,
-    title: "Tech Startup Explainer",
-    description: "Clear storytelling with engaging pacing for SaaS product",
-    service: "SaaS Product Storytelling",
-    videoUrl: "https://res.cloudinary.com/dntyusnxe/video/upload/v1/Varma_style_korwgm.mp4"
+    title: "Social media reels",
+    description: "Retention based storytelling",
+    service: "Highenergy based for startup and buisness",
+    videoUrl: "https://res.cloudinary.com/dt3ociot1/video/upload/v1782054832/Vd-06_Edited_nbgqvu.mp4"
   },
   {
     id: 2,
-    title: "Fitness Channel Series",
-    description: "High-energy cuts with music sync for workout content",
-    service: "Fitness & High Energy",
-    videoUrl: "https://res.cloudinary.com/dntyusnxe/video/upload/v1/VN20260113_091808_1_tbzjhw.mp4"
+    title: "Ad creatives",
+    description: "Ad for buisness",
+    service: "Ad style reels",
+    videoUrl: "https://res.cloudinary.com/dt3ociot1/video/upload/v1782030828/AD-02_Voiceover_Corrected_gvx7i7.mp4"
+
   },
   {
     id: 3,
-    title: "Fashion Brand Reels",
-    description: "Trendy edits optimized for Instagram engagement",
-    service: "Viral Reels / Shorts",
-    videoUrl: "assets/videos/demo-reel.mp4"
+    title: "Personal branding",
+    description: "viral style for buisness and personal branding",
+    service: "retention based edits",
+    videoUrl: "https://res.cloudinary.com/dt3ociot1/video/upload/v1782054820/Vd-07_Edited_bragxw.mp4"
   },
   {
     id: 4,
-    title: "Educational Content",
-    description: "Retention-focused editing with strategic pacing",
-    service: "Retention Optimization",
-    videoUrl: "assets/videos/demo-reel.mp4"
+    title: "Personal branding",
+    description: "Clean storytelling for buisness",
+    service: "Storytelling based edits",
+    videoUrl: "https://res.cloudinary.com/dt3ociot1/video/upload/v1782031277/Vd_04_Corrected_Mp4_ceyzl4.mp4"
   },
+
   {
     id: 5,
-    title: "Corporate Highlights",
-    description: "Professional event coverage and corporate storytelling",
-    service: "Corporate Events",
-    videoUrl: "assets/videos/demo-reel.mp4"
+    title: "Minimal & clean style",
+    description: "Clean style for personal branding",
+    service: "Instagram reels",
+    videoUrl: "https://res.cloudinary.com/dt3ociot1/video/upload/v1782063550/Vd-03_Without_Number_wdzggg.mp4"
   },
   {
     id: 6,
-    title: "Travel Vlogging",
-    description: "Cinematic travel montage with immersive sound design",
-    service: "Travel & Lifestyle",
-    videoUrl: "assets/videos/demo-reel.mp4"
+    title: "Storytelling based shorts",
+    description: "Storytelling based edit for buisness",
+    service: "Youtube shorts",
+    videoUrl: "https://res.cloudinary.com/dt3ociot1/video/upload/v1782063497/Vd-02_Without_Number_fkmalv.mp4"
   }
 ];
 
@@ -174,9 +176,9 @@ export const tools = [
 
 export const contactInfo = {
   phone: "7810044095",
-  email: "editverse624@gmail.com",
+  email: "contact.vibeeditors@gmail.com",
   linkedin: "https://www.linkedin.com/in/sanjai-innovator",
-  instagram: "https://www.instagram.com/editverse624?igsh=MTZmc3k5eGh5ZzVndw==",
+  instagram: "https://www.instagram.com/vibe__editors/",
   visuals: {
     phone: "https://img.icons8.com/3d-fluency/375/phone.png",
     email: "https://img.icons8.com/3d-fluency/375/mail.png",
